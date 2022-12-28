@@ -24,7 +24,7 @@ steps:
     args:
       - clone
       - 'git@github.com:bismay12/cicd-sonar.git'
-      - checkout release1.1
+      - checkout release1
     volumes:
       - name: ssh
         path: /root/.ssh
