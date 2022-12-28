@@ -76,8 +76,8 @@ steps:
 #     $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
 
 availableSecrets:
-    secretManager:
-    - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
-      env: 'SSH_KEY'
+   secretManager:
+   - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
+     env: 'SSH_KEY'
 
       
