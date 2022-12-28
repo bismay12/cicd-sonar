@@ -35,7 +35,7 @@ steps:
     args:
       - '-c'
       - |
-        gsutil -m rm -r gs://asia-south1-airflow-demo-4a45701b-bucket/dags/*
+        gsutil -m rm -r gs://asia-south1-cicd-deploy-333a2e51-bucket/dags/*
         
 # [START composer_cicd_dagsync_yaml]
 
