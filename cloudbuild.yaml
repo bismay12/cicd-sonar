@@ -23,8 +23,7 @@ steps:
   - name: 'gcr.io/cloud-builders/git'
     args:
     - clone
-    - --recurse-submodules
-    - git@github.com:git@github.com:bismay12/cicd-sonar.git
+    - 'git@github.com:git@github.com:bismay12/cicd-sonar.git'
     # - checkout release1
     volumes:
     - name: 'ssh'
