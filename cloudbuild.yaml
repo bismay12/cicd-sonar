@@ -1,40 +1,46 @@
 # - Airflow Env variables.
 substitutions:
+  _COMPOSER_ENV_NAME: cicd-deploy
   _COMPOSER_REGION: asia-south1
-  _COMPOSER_ENV_NAME: airflow-demo
-  
+
 # Access the id_github file from Secret Manager, and setup SSH
 steps:
   - name: 'gcr.io/cloud-builders/git'
-    secretEnv: ['SSH_KEY2']
+    secretEnv: ['SSH_KEY']
     entrypoint: 'bash'
     args:
     - -c
     - |
-      echo "$$SSH_KEY2" >> /root/.ssh/id_rsa
+      echo "$$SSH_KEY" >> /root/.ssh/id_rsa
       chmod 400 /root/.ssh/id_rsa
-      ssh-keyscan -t rsa github.com > known_hosts.github
       cp known_hosts.github /root/.ssh/known_hosts
-# cat known_hosts.github 
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-  
+
 # Clone the repository
   - name: 'gcr.io/cloud-builders/git'
     args:
     - clone
-#     - --recurse-submodules
-    - git@github.com:FutureGeneraliBusinessIntelligence/sample-app2-tag.git
+    - --recurse-submodules
+    - git@github.com:git@github.com:bismay12/cicd-sonar.git
+    # - checkout release1
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-
-  
-# # # [START composer_cicd_dagsync_yaml]
+      
+# Removing the old build Dags object
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gsutil -m rm -r gs://asia-south1-airflow-demo-4a45701b-bucket/dags/*
+        
+# [START composer_cicd_dagsync_yaml]
 
 # # install dependencies
-#  - name: python
+# - name: python
 #    entrypoint: pip
 #    args: ["install", "-r", "requirements.txt", "--user"]
 
@@ -43,36 +49,35 @@ steps:
 #    entrypoint: python
 #    args: ["utils/add_dags_to_composer.py", "--dags_directory=${_DAGS_DIRECTORY}", "--dags_bucket=${_DAGS_BUCKET}"]
 
-# [END composer_cicd_dagsync_yaml]
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
+# Add dags to Dags folder
+
+  - name: gcr.io/cloud-builders/gcloud
     args:
-    - '-c'
-    - |
-      for dagfile in $(ls dags)
-        do
-        gcloud composer environments storage dags import \
-        --environment $_COMPOSER_ENV_NAME \
-        --location $_COMPOSER_REGION \
-        --source dags/$$dagfile
-        done
-# [Start Artifact registry]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', '$_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6', '.' ]
-  
-#        - name: 'gcr.io/cloud-builders/docker'
-#       args: ['push', '$_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6']
-  
-#       - name: 'gcr.io/cloud-builders/gcloud'
-#        args: ['run', 'deploy', 'quickstart-image', '--image', '$_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6' , --port=8080 , '--region', '$_COMPOSER_REGION', --memory=1G, '--platform', 'managed', '--allow-unauthenticated']  
-  
-images:
-  - '$_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6' 
-  
- ## [End Artifact registry]
-  
+      - '-c'
+      - |
+        for dagfile in $(ls dags)
+          do
+          gcloud composer environments storage dags import \
+          --environment $_COMPOSER_ENV_NAME \
+          --location $_COMPOSER_REGION \
+          --source dags/$$dagfile
+          done
+    entrypoint: bash
+
+#   - name: gcr.io/cloud-builders/docker
+#     args:
+#       - build
+#       - '-t'
+#       - >-
+#         $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
+#       - .
+# images:
+#   - >-
+#     $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
+
 availableSecrets:
     secretManager:
-    - versionName: projects/591981386330/secrets/SSH_KEY2/versions/latest
-      env: 'SSH_KEY2'
+    - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
+      env: 'SSH_KEY'
+
       
