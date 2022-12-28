@@ -5,7 +5,9 @@ substitutions:
 
 # Access the id_github file from Secret Manager, and setup SSH
 steps:
-  - name: gcr.io/cloud-builders/git
+  - name: 'gcr.io/cloud-builders/git'
+    secretEnv: ['SSH_KEY']
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
@@ -13,9 +15,6 @@ steps:
         chmod 400 /root/.ssh/id_rsa
         ssh-keyscan -t rsa github.com > known_hosts.github
         cp known_hosts.github /root/.ssh/known_hosts
-    entrypoint: bash
-    secretEnv:
-      - SSH_KEY
     volumes:
       - name: ssh
         path: /root/.ssh
@@ -49,16 +48,16 @@ steps:
           done
     entrypoint: bash
 
-#   - name: gcr.io/cloud-builders/docker
-#     args:
-#       - build
-#       - '-t'
-#       - >-
-#         $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
-#       - .
-# images:
-#   - >-
-#     $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - >-
+        $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
+      - .
+images:
+  - >-
+    $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
 
 availableSecrets:
   secretManager:
