@@ -29,9 +29,9 @@ steps:
         path: /root/.ssh
 
 # Step 2: Change the working directory to cicd-sonar
-- name: 'gcr.io/cloud-builders/bash'
-  entrypoint: 'bash'
-  args:
+  - name: 'gcr.io/cloud-builders/bash'
+    entrypoint: 'bash'
+    args:
     - '-c'
     - 'cd cicd-sonar'        
 
