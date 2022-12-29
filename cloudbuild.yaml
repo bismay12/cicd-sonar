@@ -29,6 +29,8 @@ steps:
         git clone -b release1 https://github.com/bismay12/cicd-sonar.git
         cd cicd-sonar
         git switch -c release1
+        echo 'helloworld'
+        ls
     volumes:
       - name: ssh
         path: /root/.ssh
