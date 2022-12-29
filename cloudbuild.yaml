@@ -29,7 +29,7 @@ steps:
         path: /root/.ssh
 
 # Step 2: Change the working directory to cicd-sonar
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: gcr.io/cloud-builders/gcloud
     entrypoint: "bash"
     args:
     - '-c'
@@ -38,8 +38,9 @@ steps:
 # Step 3: Checkout a specific commit
   - name: gcr.io/cloud-builders/git
     args:
-      - 'checkout -b dev'
-      
+      - checkout
+      - tags/release1
+
 availableSecrets:
   secretManager:
     - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
