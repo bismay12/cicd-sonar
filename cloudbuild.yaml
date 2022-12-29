@@ -26,8 +26,8 @@ steps:
     args:
       - '-c'
       - |
-        git clone git@github.com:bbiHQ/$REPO_NAME .
-        git reset --hard $SHORT_SHA
+        git clone -b release1 https://github.com/bismay12/cicd-sonar.git
+        # git reset --hard $SHORT_SHA
     volumes:
       - name: ssh
         path: /root/.ssh
