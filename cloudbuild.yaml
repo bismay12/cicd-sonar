@@ -39,7 +39,8 @@ steps:
   - name: gcr.io/cloud-builders/git
     args:
       - checkout
-      - release1
+      - dev
+      
 availableSecrets:
   secretManager:
     - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
