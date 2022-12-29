@@ -18,61 +18,18 @@ steps:
     volumes:
       - name: ssh
         path: /root/.ssh
+        
 # Clone the repository
   - name: gcr.io/cloud-builders/git
     args:
-      - '-c'
-      - |
-        clone
-        'git@github.com:bismay12/cicd-sonar.git'
-        cd cicd-sonar
-        checkout release1
+      - clone
+      - 'git@github.com:bismay12/cicd-sonar.git'
     volumes:
       - name: ssh
         path: /root/.ssh
 
-# # Step 2: Checkout a specific commit
-#   - name: gcr.io/cloud-builders/git
-#     args:
-#       - checkout
-#       - tags/release1
-      
-      
-# Removing the old build Dags object
-  - name: 'gcr.io/cloud-builders/gsutil'
-    entrypoint: 'bash'
+# Step 2: Checkout a specific commit
+  - name: gcr.io/cloud-builders/git
     args:
-      - '-c'
-      - |
-        gsutil -m rm -r gs://asia-south1-cicd-deploy-333a2e51-bucket/dags/*
-#Add dags to Dags folder
-  - name: gcr.io/cloud-builders/gcloud
-    args:
-      - '-c'
-      - |
-        for dagfile in $(ls dags)
-          do
-          gcloud composer environments storage dags import \
-          --environment $_COMPOSER_ENV_NAME \
-          --location $_COMPOSER_REGION \
-          --source dags/$$dagfile
-          done
-    entrypoint: bash
-
-  - name: gcr.io/cloud-builders/docker
-    args:
-      - build
-      - '-t'
-      - >-
-        $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
-      - .
-images:
-  - >-
-    $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
-
-availableSecrets:
-  secretManager:
-    - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
-      env: SSH_KEY
-
-      
+      - checkout
+      - tags/release1
