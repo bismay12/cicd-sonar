@@ -25,26 +25,21 @@ steps:
     args:
       - '-c'
       - |
-        #git clone https://github.com/bismay12/cicd-sonar.git
-        git clone --depth 1 --branch release1 https://github.com/bismay12/cicd-sonar.git
-        # cd cicd-sonar
-        # git checkout tags/release1
-        # echo 'helloworld'
-        # ls dags
+        git clone https://github.com/bismay12/cicd-sonar.git
     volumes:
       - name: ssh
         path: /root/.ssh
         
 #checkout to release1 
-#   - name: gcr.io/cloud-builders/git
-#     dir: $REPO_NAME
-#     entrypoint: 'bash'
-#     args:
-#       - '-c'
-#       - |
-#         cd cicd-sonar
-#         git checkout tags/release1
-#         ls
+  - name: gcr.io/cloud-builders/git
+    dir: $REPO_NAME
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cd cicd-sonar
+        git checkout tags/release1
+        ls
 
 #Add dags to Dags folder
   - name: gcr.io/cloud-builders/gcloud
