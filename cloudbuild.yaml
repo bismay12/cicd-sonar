@@ -17,7 +17,7 @@ steps:
     volumes:
       - name: ssh
         path: /root/.ssh
-
+        
 # Clone the repository
   - name: gcr.io/cloud-builders/git
     dir: $REPO_NAME
@@ -26,28 +26,41 @@ steps:
       - '-c'
       - |
         git clone https://github.com/bismay12/cicd-sonar.git
-        cd cicd-sonar
+        # cd cicd-sonar
+        # git checkout tags/release1
+        # echo 'helloworld'
+        # ls dags
     volumes:
       - name: ssh
         path: /root/.ssh
-
-# Check out the release1 tag
+        
+#checkout to release1 
   - name: gcr.io/cloud-builders/git
-    dir: $REPO_NAME/cicd-sonar
+    dir: $REPO_NAME
     entrypoint: 'bash'
     args:
       - '-c'
       - |
+        cd cicd-sonar
         git checkout tags/release1
-    volumes:
-      - name: ssh
-        path: /
+        ls
 
-# Add dags to Dags folder
+#Add dags to Dags folder
   - name: gcr.io/cloud-builders/gcloud
     args:
       - '-c'
       - |
-        for dagfile in $(ls dags/release1)
+        for dagfile in $(ls dags)
           do
-          gcloud composer environments storage dags
+          gcloud composer environments storage dags import \
+          --environment $_COMPOSER_ENV_NAME \
+          --location $_COMPOSER_REGION \
+          --source dags/$$dagfile
+          echo $dagfile
+          done
+    entrypoint: bash
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
+      env: SSH_KEY
