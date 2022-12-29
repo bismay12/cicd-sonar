@@ -25,11 +25,11 @@ steps:
     args:
       - '-c'
       - |
-        git clone -b release1 https://github.com/bismay12/cicd-sonar.git
+        git clone https://github.com/bismay12/cicd-sonar.git
         cd cicd-sonar
         git switch -c release1
         echo 'helloworld'
-        ls
+        ls dags
     volumes:
       - name: ssh
         path: /root/.ssh
