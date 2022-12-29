@@ -21,8 +21,10 @@ steps:
 # Clone the repository
   - name: gcr.io/cloud-builders/git
     args:
-      - clone -b release1
+      - clone 
       - 'git@github.com:bismay12/cicd-sonar.git'
+      - cd cicd-sonar
+      - checkout release1
     volumes:
       - name: ssh
         path: /root/.ssh
