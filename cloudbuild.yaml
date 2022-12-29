@@ -39,7 +39,7 @@ steps:
   - name: gcr.io/cloud-builders/git
     args:
       - checkout
-      - dev
+      - -b dev
       
 availableSecrets:
   secretManager:
