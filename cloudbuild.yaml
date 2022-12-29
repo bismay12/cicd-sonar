@@ -26,7 +26,7 @@ steps:
       - '-c'
       - |
         #git clone https://github.com/bismay12/cicd-sonar.git
-        git clone --branch release https://github.com/bismay12/cicd-sonar.git
+        git clone --depth 1 --branch release1 https://github.com/bismay12/cicd-sonar.git
         # cd cicd-sonar
         # git checkout tags/release1
         # echo 'helloworld'
