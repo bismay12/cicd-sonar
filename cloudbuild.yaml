@@ -28,6 +28,8 @@ steps:
       - |
         git clone -b release1 https://github.com/bismay12/cicd-sonar.git
         cd cicd-sonar
+        echo 'HELLO WORLD'
+        echo "$PWD"
         # git reset --hard $SHORT_SHA
     volumes:
       - name: ssh
