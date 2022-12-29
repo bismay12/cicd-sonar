@@ -31,6 +31,20 @@ steps:
     volumes:
       - name: ssh
         path: /root/.ssh
+ 
+#Add dags to Dags folder
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - '-c'
+      - |
+        for dagfile in $(ls dags)
+          do
+          gcloud composer environments storage dags import \
+          --environment $_COMPOSER_ENV_NAME \
+          --location $_COMPOSER_REGION \
+          --source dags/$$dagfile
+          done
+    entrypoint: bash
 
 availableSecrets:
   secretManager:
