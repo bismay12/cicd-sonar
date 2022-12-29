@@ -26,6 +26,9 @@ steps:
   # Step 2: Checkout the release1 tag
   - name: 'gcr.io/cloud-builders/git'
     args: ['checkout', 'release1']
+    volumes:
+      - name: ssh
+        path: /root/.ssh
       
    
 # Removing the old build Dags object
