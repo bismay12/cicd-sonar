@@ -43,6 +43,7 @@ steps:
       - |
         cd cicd-sonar
         git checkout tags/release1
+        ls
 
 #Add dags to Dags folder
   - name: gcr.io/cloud-builders/gcloud
