@@ -27,7 +27,7 @@ steps:
       - |
         git clone https://github.com/bismay12/cicd-sonar.git
         cd cicd-sonar
-        git switch -c release2
+        git switch -c 0df1d76dbbd33fc468feb13bb834a08b0a4203e6
         echo 'helloworld'
         ls dags
     volumes:
