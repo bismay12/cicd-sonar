@@ -28,7 +28,14 @@ steps:
       - name: ssh
         path: /root/.ssh
 
-# Step 2: Checkout a specific commit
+# Step 2: Change the working directory to cicd-sonar
+- name: 'gcr.io/cloud-builders/bash'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - 'cd cicd-sonar'        
+
+# Step 3: Checkout a specific commit
   - name: gcr.io/cloud-builders/git
     args:
       - checkout
