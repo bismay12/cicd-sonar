@@ -29,8 +29,8 @@ steps:
         git clone git@github.com:bbiHQ/$REPO_NAME .
         git reset --hard $SHORT_SHA
     volumes:
-    - name: ssh
-    path: /root/.ssh
+      - name: ssh
+        path: /root/.ssh
 
 availableSecrets:
   secretManager:
