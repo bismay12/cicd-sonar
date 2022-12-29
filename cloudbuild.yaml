@@ -40,12 +40,12 @@ steps:
       - '-c'
       - |
         for dagfile in $(ls dags)
-            echo dagfile
           do
           gcloud composer environments storage dags import \
           --environment $_COMPOSER_ENV_NAME \
           --location $_COMPOSER_REGION \
           --source dags/$$dagfile
+          echo $dagfile
           done
     entrypoint: bash
 
