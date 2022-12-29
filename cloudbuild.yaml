@@ -31,9 +31,9 @@ steps:
   - name: gcr.io/cloud-builders/git
     args:
       - checkout
-      - release1
+      - tags/release1
       
-   
+      
 # Removing the old build Dags object
   - name: 'gcr.io/cloud-builders/gsutil'
     entrypoint: 'bash'
