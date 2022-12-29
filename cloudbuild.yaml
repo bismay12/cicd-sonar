@@ -40,7 +40,7 @@ steps:
       - '-c'
       - |
         for dagfile in $(ls dags)
-            echo 'The dag's name is $dagfile'
+            echo dagfile
           do
           gcloud composer environments storage dags import \
           --environment $_COMPOSER_ENV_NAME \
