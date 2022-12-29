@@ -21,26 +21,16 @@ steps:
         
 # Clone the repository
   - name: gcr.io/cloud-builders/git
+    dir: $REPO_NAME
+    entrypoint: 'bash'
     args:
-      - clone
-      - 'git@github.com:bismay12/cicd-sonar.git'
+      - '-c'
+      - |
+        git clone git@github.com:bbiHQ/$REPO_NAME .
+        git reset --hard $SHORT_SHA
     volumes:
-      - name: ssh
-        path: /root/.ssh
-
-# Step 2: Change the working directory to cicd-sonar
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: "bash"
-    args:
-    - '-c'
-    - 'cd cicd-sonar'
-
-# Step 3: Checkout a specific commit
-  - name: gcr.io/cloud-builders/git
-    args:
-      - fetch
-      - checkout
-      - tags/release1
+    - name: ssh
+    path: /root/.ssh
 
 availableSecrets:
   secretManager:
