@@ -53,7 +53,9 @@ steps:
 # Build and push to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/niveustraining/my-image1', '.']
-    
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/niveustraining/my-image']   
+   
 availableSecrets:
   secretManager:
     - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
