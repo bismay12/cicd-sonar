@@ -2,7 +2,6 @@
 substitutions:
   _COMPOSER_ENV_NAME: cicd-deploy
   _COMPOSER_REGION: asia-south1
-  PROJECT_ID: niveustraining
 
 # Access the id_github file from Secret Manager, and setup SSH
 steps:
@@ -53,12 +52,8 @@ steps:
 
 # Build and push to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/niveustraining/my-image', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/niveustraining/my-image']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['artifacts', 'create', '--type', 'image', '--location', 'global', 'gcr.io/niveustraining/my-image']
-
+    args: ['build', '-t', 'gcr.io/niveustraining/my-image1', '.']
+    
 availableSecrets:
   secretManager:
     - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
