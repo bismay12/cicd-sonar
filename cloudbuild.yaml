@@ -23,7 +23,7 @@ steps:
   - name: 'gcr.io/cloud-builders/git'
     args:
     - clone
-    - git@github.com:git@github.com:bismay12/cicd-sonar.git
+    - git@github.com:bismay12/cicd-sonar.git
     volumes:
     - name: 'ssh'
       path: /root/.ssh
