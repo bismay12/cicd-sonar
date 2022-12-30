@@ -1,3 +1,4 @@
+# - Airflow Env variables.
 substitutions:
   _COMPOSER_ENV_NAME: cicd-deploy
   _COMPOSER_REGION: asia-south1
@@ -19,27 +20,21 @@ steps:
         path: /root/.ssh
         
 # Clone the repository
-  - name: gcr.io/cloud-builders/git
-    dir: $REPO_NAME
-    entrypoint: 'bash'
+  - name: 'gcr.io/cloud-builders/git'
     args:
-      - '-c'
-      - |
-        git clone https://github.com/bismay12/cicd-sonar.git
+    - clone
+    - git@github.com:git@github.com:bismay12/cicd-sonar.git
     volumes:
-      - name: ssh
-        path: /root/.ssh
-        
-#checkout to release1 
-  - name: gcr.io/cloud-builders/git
-    dir: $REPO_NAME
-    entrypoint: 'bash'
+    - name: 'ssh'
+      path: /root/.ssh
+
+# Static code Analysis
+  - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     args:
-      - '-c'
-      - |
-        cd cicd-sonar
-        git checkout tags/release1
-        ls
+    - '-Dsonar.host.url=http://34.93.173.9:9000'
+    - '-Dsonar.login=sqp_43ee43bbca4a5d9025d9c5b2c0d5839d8c59f510'
+    - '-Dsonar.projectKey=cicd-sonar-test'
+    - '-Dsonar.sources=.'
 
 #Add dags to Dags folder
   - name: gcr.io/cloud-builders/gcloud
@@ -52,9 +47,19 @@ steps:
           --environment $_COMPOSER_ENV_NAME \
           --location $_COMPOSER_REGION \
           --source dags/$$dagfile
-          echo $dagfile
           done
     entrypoint: bash
+
+#   - name: gcr.io/cloud-builders/docker
+#     args:
+#       - build
+#       - '-t'
+#       - >-
+#         $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
+#       - .
+# images:
+#   - >-
+#     $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
 
 availableSecrets:
   secretManager:
