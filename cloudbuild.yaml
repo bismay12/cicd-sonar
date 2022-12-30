@@ -57,6 +57,12 @@ steps:
   # Push the image to GCR
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/niveustraining/my-image:v1.0']
+  # Scan the image for vulnerabilities
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['container', 'images', 'describe', 'gcr.io/niveustraining/my-image:v1.0', '--format=json']
+    id: scan
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['container', 'images', 'add-tag', 'gcr.io/niveustraining/my-image:v1.0      
 
 availableSecrets:
   secretManager:
