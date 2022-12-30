@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+FROM alpine:latest
 FROM python:3.10
 
 # Allow statements and log messages to immediately appear in the Cloud Run logs
