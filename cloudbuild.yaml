@@ -50,22 +50,18 @@ steps:
           done
     entrypoint: bash
 
-# Build and push to Artifact Registry
-  # Build the image
+# Build the image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/niveustraining/my-image:v1.0', '.']
-  # Push the image to GCR
+    
+# Push the image to GCR
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/niveustraining/my-image:v1.0']
-  
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['container', 'images', 'describe', 'gcr.io/niveustraining/my-image:v1.0', '--format=json']
-    id: scan
     
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['container', 'images', 'add-tag', 'gcr.io/niveustraining/my-image:v1.0']
-    entrypoint: '/usr/local/bin/gcloud'
-
+# Scan the image for vulnerabilities
+  - name: 'gcr.io/cloud-builders/gcr-scan'
+    args: ['gcr.io/niveustraining/my-image:v1.0']
+    id: scan
 
 availableSecrets:
   secretManager:
