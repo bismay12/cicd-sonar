@@ -60,7 +60,7 @@ steps:
 
 # vulnerabiliy scan
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['beta', 'container', 'binauthz', 'validate-vm', 'gcr.io/niveustraining/my-image:v1.0']
+    args: ['beta', 'container', 'images', 'describe', 'gcr.io/niveustraining/my-image:v1.0', '--format=json']
 
 availableSecrets:
   secretManager:
