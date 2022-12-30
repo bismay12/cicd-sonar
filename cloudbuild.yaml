@@ -50,16 +50,6 @@ steps:
           done
     entrypoint: bash
 
-# Build and push to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/niveustraining/my-image', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/niveustraining/my-image']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['artifacts', 'create', '--type', 'image', '--location', 'global', 'gcr.io/niveustraining/my-image']
-    env:
-      - 'PROJECT_ID': 'niveustraining'
-
 availableSecrets:
   secretManager:
     - versionName: projects/866354246469/secrets/SSH_KEY/versions/latest
