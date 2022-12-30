@@ -57,10 +57,10 @@ steps:
 # Push the image to GCR
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/niveustraining/my-image:v1.0']
-    
-  # Enable vulnerability scanning for the image in GCR
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['gcloud', 'container', 'images', 'update-vulnerability-scan-config', 'gcr.io/niveustraining/my-image:v1.0', '--enable-vulnerability-scanning']
+
+# vulnerabiliy scan
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['beta', 'container', 'binauthz', 'validate-vm', 'gcr.io/niveustraining/my-image:v1.0']
 
 availableSecrets:
   secretManager:
