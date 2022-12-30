@@ -50,16 +50,15 @@ steps:
           done
     entrypoint: bash
 
-#   - name: gcr.io/cloud-builders/docker
-#     args:
-#       - build
-#       - '-t'
-#       - >-
-#         $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
-#       - .
-# images:
-#   - >-
-#     $_COMPOSER_REGION-docker.pkg.dev/$PROJECT_ID/quickstart-docker-repo/quickstart-image:tag6
+# Build and push to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/niveustraining/my-image', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/niveustraining/my-image']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['artifacts', 'create', '--type', 'image', '--location', 'global', 'gcr.io/niveustraining/my-image']
+    env:
+      - 'PROJECT_ID': 'niveustraining'
 
 availableSecrets:
   secretManager:
