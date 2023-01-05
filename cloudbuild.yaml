@@ -31,9 +31,9 @@ steps:
 # Static code Analysis
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     args:
-    - '-Dsonar.host.url=http://34.93.173.9:9000'
-    - '-Dsonar.login=sqp_43ee43bbca4a5d9025d9c5b2c0d5839d8c59f510'
-    - '-Dsonar.projectKey=cicd-sonar-test'
+    - '-Dsonar.host.url=http://35.200.250.32:9000 '
+    - '-Dsonar.login=sqp_4b13cba384614639bae67902515dec4b9653b97d'
+    - '-Dsonar.projectKey=cicd-sonar-test1'
     - '-Dsonar.sources=.'
 
 #Add dags to Dags folder
