@@ -35,7 +35,6 @@ steps:
     - '-Dsonar.login=sqp_4b13cba384614639bae67902515dec4b9653b97d'
     - '-Dsonar.projectKey=cicd-sonar-test1'
     - '-Dsonar.sources=.'
-    - '-sonar.python.coverage.reportPaths=coverage.xml'
 
 #Add dags to Dags folder
   - name: gcr.io/cloud-builders/gcloud
